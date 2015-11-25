@@ -78,12 +78,20 @@ def check_config(logger):
 			exit(0)
 		local_folders = oss_mapper['local_folders']
 		if len(local_folders) > 0:
+			test_folder_set = []
 			for folder in local_folders:
 				if not os.path.exists(folder) or not os.path.isdir(folder):
 					msg = "Local folder: " + folder + " is not existed or is not a direcotry.Please check you setting."
 					#print msg
 					logger.critical(msg)
 					exit(0)
+				folder_name = os.path.split(folder)[1]
+				if folder_name in test_folder_set:
+					msg = 'duplicated foldername ' + folder_name + '.'
+					logger.critical(msg)
+					exit(0)
+				else:
+					test_folder_set.append(folder_name)
 		else:
 			msg = "please at least set one local folder for each bucket"
 			#print msg
@@ -109,4 +117,3 @@ def queue_unprocessed(queue, logger):
 		logger.critical(e.message)
 		pass
 
-	
