@@ -61,11 +61,18 @@ def check_config(logger):
 		#print msg
 		logger.critical(msg)
 		exit(0) 
-	oss = OssAPI(HOST, ACCESS_ID, SECRET_ACCESS_KEY) 
+	oss = OssAPI(HOST, ACCESS_ID, SECRET_ACCESS_KEY)
+	test_bucket_set = []
 	for oss_mapper in oss_mappers:
 		bucket = oss_mapper['bucket']
 		acl = ''
 		headers = {}
+		if bucket in test_bucket_set:
+			msg = 'duplicated bucket name ' + bucket + '.'
+			logger.critical(msg)
+			exit(0)
+		else:
+			test_bucket_set.append(bucket)
 		try:
 			res = oss.create_bucket(bucket, acl, headers) 
 		except Exception as e:
@@ -87,7 +94,7 @@ def check_config(logger):
 					exit(0)
 				folder_name = os.path.split(folder)[1]
 				if folder_name in test_folder_set:
-					msg = 'duplicated foldername ' + folder_name + '.'
+					msg = 'duplicated folder name ' + folder_name + '.'
 					logger.critical(msg)
 					exit(0)
 				else:
@@ -117,3 +124,4 @@ def queue_unprocessed(queue, logger):
 		logger.critical(e.message)
 		pass
 
+	
