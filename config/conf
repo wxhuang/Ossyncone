@@ -1,0 +1,10 @@
+{
+  "HOST":"oss.aliyuncs.com",
+  "ACCESS_ID":"",
+  "SECRET_ACCESS_KEY":"",
+  "OSS_MAPPERS" : [{"bucket": "dzdata", "local_folders": ["/root/testdata/audios", "/root/testdata/docs"]}],
+  "MAX_LOGFILE_SIZE":104857600,
+  "MAX_BACKUP_COUNT":5,
+  "MAX_RETRIES":10,
+  "NTHREADS":5
+}
