@@ -20,9 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 import os
-import json
 import sys
 import shutil
+import ast
+
 
 # OSS 连接参数
 ####################
@@ -34,9 +35,8 @@ def get_conf(path):
   config_path = os.path.join(path, 'conf') 
   if not os.path.exists(config_path):
     raise Exception("config file not found")
-  f = open(config_path, 'r')
-  return json.load(f) 
-
+  s = open(config_path, 'r').read()
+  return ast.literal_eval(s)
 config_path = os.path.split(__file__)[0]
 default_path = os.path.join(config_path, '../')
 default_conf = get_conf(config_path)
