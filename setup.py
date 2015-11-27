@@ -22,6 +22,14 @@
 
 import os
 import sys
+import stat
+
+def gen_exec_file():
+  file_path = os.path.join('/usr/bin', 'ossyncone')
+  f = open(file_path, 'w')
+  f.writelines(['#!/bin/sh\n', 'python ' + os.path.abspath('ossync.py') + ' $*'])
+  f.close()
+  os.chmod(file_path, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
 
 # check if python version >= 2.6 and < 3.0
 if sys.version_info < (2, 6):
@@ -31,6 +39,7 @@ if sys.version_info >= (3, 0):
 	sys.stderr.write("Sorry, Python 3.0+ is unsupported at present。\n")
 	sys.exit(0)
 
+gen_exec_file()
 # check if linux kernel supports inotify
 #if not os.path.exists("/proc/sys/fs/inotify"):
 #	sys.stderr.write("Sorry, your linux kernel doesn't support inotify。\n")
